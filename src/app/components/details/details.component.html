@@ -1,0 +1,39 @@
+<div class="details" *ngIf="game">
+    <div class="game-banner" >
+        <img 
+         class="game-banner-img"
+         src="{{ game.background_image }}"
+         alt="background_image" 
+         *ngIf="game.background_image" 
+        />
+        <!-- Else (notice the !game.background_image) -->
+        <p *ngIf="!game.background_image">No image</p>
+    </div>
+    <div class="game-content">
+        <div class="details-wrapper">
+            <div class="game-header">
+                <h1 class="game-header-title">{{ game.name }}</h1>
+                <h2 class="game-header-release-date">
+                    Release: {{ game.released | date }} <!-- a pipe "|" is used here to output the format-->
+                </h2>
+                <p class="game-header-genres">
+                    <!-- To display commas conditionally -->
+                    <span *ngFor="let genre of game.genres; let last = last" >
+                        {{ genre.name }}<span *ngIf="!last">, </span>
+                    </span>
+                </p>
+                <div class="game-gauge">
+                    <mwl-gauge class="two" [max]="100" 
+                    [dialStartAngle]="180" [dialEndAngle]="0"
+                    [value]="gameRating" [animated]="true"
+                    [color]="getColor" [animationDuration]="2"
+                    >
+                    </mwl-gauge>
+                    <a target="_blank" href="{{ game.metacritic_url }}" class="game-gauge-label"> Metacritic </a>
+                </div>
+            </div>
+            <!-- Tabs -->
+            <app-game-tabs [game]="game"></app-game-tabs>
+        </div>
+    </div>
+</div>
